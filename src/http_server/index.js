@@ -1,12 +1,14 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as http from 'http';
+import path from 'node:path';
+import fs from 'node:fs';
+import http from "node:http"
+import { v4 } from 'uuid';
 import { WebSocketServer } from 'ws';
 import { handler } from '../handler.js';
-import { v4 } from 'uuid';
-import { clients } from "../players.js";
+import { clients } from "../stores.js";
+// import { ExtWebSocket } from "../types/types"
 
 export const wsServer = new WebSocketServer({ port: 3000 });
+
 wsServer.on('connection', (ws, request, clientId) => {
   if(!clientId) {
     clientId = v4();
@@ -17,7 +19,7 @@ wsServer.on('connection', (ws, request, clientId) => {
     ws.on('message', (data) => {
       try {
         const message = JSON.parse(data.toString());
-        handler(ws, message, clientId);
+        handler(message, clientId);
       } catch (error) {
         console.log('error-message');
       }
@@ -32,7 +34,8 @@ wsServer.on('connection', (ws, request, clientId) => {
 });
 
 const interval = setInterval(() => {
-  wsServer.clients.forEach((ws) => {
+  wsServer.clients.forEach((wsData) => {
+    const ws = wsData;
     if (ws.isAlive === false) return ws.terminate();
 
     ws.isAlive = false;

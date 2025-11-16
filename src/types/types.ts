@@ -1,3 +1,11 @@
+import { WebSocket } from "ws";
+
+type ClientRequest = {
+  type: string,
+  data: string,
+  id: number,
+}
+
 type ClinetRequestLoginOrCreate = {
   type: "reg",
   data:
@@ -75,7 +83,14 @@ type ServerResponseUpdateRoomState = {
   id: 0,
 };
 
+interface ExtWebSocket extends WebSocket {
+  isAlive: boolean,
+}
+
 export {
+  ExtWebSocket,
+  ClientRequest,
+
   ClinetRequestLoginOrCreate,
   ServerResponseLoginOrCreate,
   ServerResponseUpdateWinners,
