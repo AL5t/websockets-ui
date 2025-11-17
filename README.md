@@ -9,15 +9,15 @@
 ## Usage
 **Development**
 
-`npm run start:dev`
+`npm run start:dev:tsx`
 
-* App served @ `http://localhost:8181` with nodemon
+* App served @ `http://localhost:8181`
 
 **Production**
 
 `npm run start`
 
-* App served @ `http://localhost:8181` without nodemon
+* App served @ `http://localhost:8181`
 
 ---
 
@@ -25,7 +25,7 @@
 
 Command | Description
 --- | ---
-`npm run start:dev` | App served @ `http://localhost:8181` with nodemon
+`npm run start:dev:tsx` | App served @ `http://localhost:8181`
 `npm run start` | App served @ `http://localhost:8181` without nodemon
 
 **Note**: replace `npm` with `yarn` in `package.json` if you use yarn.
