@@ -3,13 +3,13 @@ import fs from 'node:fs';
 import http from "node:http"
 import { v4 } from 'uuid';
 import { WebSocketServer } from 'ws';
-import { handler } from '../handler.js';
-import { clients } from "../stores.js";
-// import { ExtWebSocket } from "../types/types"
+import { handler } from '../handler.ts';
+import { clients } from "../stores.ts";
+import { ExtWebSocket } from "../types/types.ts"
 
 export const wsServer = new WebSocketServer({ port: 3000 });
 
-wsServer.on('connection', (ws, request, clientId) => {
+wsServer.on('connection', (ws: ExtWebSocket, request: any, clientId: string) => {
   if(!clientId) {
     clientId = v4();
     clients[clientId] = {ws: ws, name: ""};
@@ -21,7 +21,7 @@ wsServer.on('connection', (ws, request, clientId) => {
         const message = JSON.parse(data.toString());
         handler(message, clientId);
       } catch (error) {
-        console.log('error-message');
+        console.log('error-message', error);
       }
     });
 
@@ -35,7 +35,7 @@ wsServer.on('connection', (ws, request, clientId) => {
 
 const interval = setInterval(() => {
   wsServer.clients.forEach((wsData) => {
-    const ws = wsData;
+    const ws = wsData as ExtWebSocket;
     if (ws.isAlive === false) return ws.terminate();
 
     ws.isAlive = false;

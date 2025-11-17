@@ -1,8 +1,7 @@
-import { register, createRoom, addUserToRoom,  addShips, attack } from './commands.js';
-// import { ExtWebSocket } from "./types/types";
-// import { ClientRequest } from "./types/types";
+import { register, createRoom, addUserToRoom,  addShips, attack } from './commands.ts';
+import { ClientRequest } from "./types/types.ts";
 
-export function handler(message, clientId) {
+export function handler(message: ClientRequest, clientId: string) {
   switch (message.type) {
     case "reg":
       register(message.data, clientId);

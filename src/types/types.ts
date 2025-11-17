@@ -1,10 +1,110 @@
 import { WebSocket } from "ws";
 
+interface ExtWebSocket extends WebSocket {
+  isAlive: boolean,
+};
+
+type Client = {ws: ExtWebSocket, name: string};
+type Clients = Record<string, Client>;
+
+type RoomUser = {name: string, index: string };
+type Room = {
+  roomId: string,
+  roomUsers: RoomUser[]
+};
+type Rooms = Record<string, Room>;
+
+type Ship = {
+  position: {
+      x: number,
+      y: number,
+  },
+  direction: boolean,
+  length: number,
+  type: "small"|"medium"|"large"|"huge",
+};
+type PlayerData = {field: string[][], ships: Ship[]};
+type Game = Record<string, PlayerData>;
+type Games = Record<string, Game>;
+
 type ClientRequest = {
   type: string,
   data: string,
   id: number,
+};
+
+
+type ClientResponse = {
+  type: string,
+  data: ServerResponseDataLoginOrCreate 
+  | ServerResponseDataUpdateWinners 
+  | ServerResponseDataAddUserToRoom 
+  | ServerResponseDataAddUserToRoom 
+  | ServerResponseDataUpdateRoomState
+  | ServerResponseDataStartGame
+  | ServerResponseDataAttack
+  | ServerResponseDataTurn
+  | ServerResponseDataFinish
+  | string,
+  id: number,
+};
+
+
+type ServerResponseDataLoginOrCreate = {
+  name: string,
+  index: number | string,
+  error: boolean,
+  errorText: string,
+};
+
+
+type ServerResponseWinner = {
+  name: string,
+  wins: number,
+};
+type ServerResponseDataUpdateWinners = ServerResponseWinner[];
+
+
+type ServerResponseDataAddUserToRoom = {
+  idGame: number | string,
+  idPlayer: number | string,
+};
+
+
+type ServerResponseRoomState = {
+  roomId: string,
+  roomUsers: RoomUser[],
 }
+type ServerResponseDataUpdateRoomState = ServerResponseRoomState[] | [];
+
+
+type ServerResponseDataStartGame = {
+  ships: Ship[],
+  currentPlayerIndex: number | string,
+};
+
+
+type ServerResponseDataAttack = {
+  position:
+  {
+    x: number,
+    y: number,
+  },
+  currentPlayer: number | string,
+  status: "miss" | "killed" | "shot",
+};
+
+
+type ServerResponseDataTurn = {
+  currentPlayer: number | string
+};
+
+
+type ServerResponseDataFinish = {
+  winPlayer: number | string
+};
+
+
 
 type ClinetRequestLoginOrCreate = {
   type: "reg",
@@ -83,13 +183,27 @@ type ServerResponseUpdateRoomState = {
   id: 0,
 };
 
-interface ExtWebSocket extends WebSocket {
-  isAlive: boolean,
-}
-
 export {
   ExtWebSocket,
+  Clients,
+  Rooms,
+  RoomUser,
+  Games,
   ClientRequest,
+  ClientResponse,
+
+  ServerResponseDataLoginOrCreate,
+  ServerResponseDataUpdateWinners,
+  ServerResponseDataAddUserToRoom, 
+  ServerResponseDataUpdateRoomState,
+  ServerResponseDataStartGame,
+  ServerResponseDataAttack,
+  ServerResponseDataTurn,
+  ServerResponseDataFinish,
+
+
+
+
 
   ClinetRequestLoginOrCreate,
   ServerResponseLoginOrCreate,

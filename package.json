@@ -5,9 +5,9 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "node ./index.js",
-        "start:dev": "nodemon ./index.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "tsx ./index.ts",
+        "start:dev": "nodemon ./index.ts",
+        "start:dev:tsx": "tsx watch ./index.ts",
         "build": "tsc"
     },
     "author": "Andrei Auchynnikau",
@@ -19,6 +19,7 @@
         "nodemon": "^2.0.22",
         "ts-node": "^10.9.2",
         "ts-node-dev": "^2.0.0",
+        "tsx": "^4.20.6",
         "typescript": "^5.9.3"
     },
     "dependencies": {

@@ -3,11 +3,13 @@
     "target": "es2020",
     "module": "esnext",
     "moduleResolution": "node",
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   },
-  "include": ["src/**/*", "index.js"]
+  "include": ["src/**/*", "index.ts"]
 }
